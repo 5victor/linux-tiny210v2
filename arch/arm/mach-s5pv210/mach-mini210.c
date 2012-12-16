@@ -32,6 +32,8 @@
 #include <linux/usb/ch9.h>
 #include <linux/spi/spi.h>
 #include <linux/gpio_keys.h>
+#include <linux/power_supply.h>
+#include <linux/pda_power.h>
 
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
@@ -915,6 +917,23 @@ struct platform_device mini210_dm9000 = {
 };
 #endif
 
+static int mini210_is_ac_power_online(void)
+{
+	return POWER_SUPPLY_TYPE_MAINS;
+}
+
+static struct pda_power_pdata power_pdata = {
+	.is_ac_online = mini210_is_ac_power_online,
+};
+
+struct platform_device mini210_power = {
+	.name		= "pda-power",
+	.id		= -1,
+	.dev		= {
+		.platform_data	= &power_pdata,
+	},
+};
+
 static struct platform_device *mini210_devices[] __initdata = {
 	&s3c_device_adc,
 	&s3c_device_cfcon,
@@ -1010,6 +1029,7 @@ static struct platform_device *mini210_devices[] __initdata = {
 	&s5p_device_cec,
 	&s5p_device_hpd,
 #endif
+	&mini210_power,
 };
 
 #ifdef CONFIG_VIDEO_S5K4EA
