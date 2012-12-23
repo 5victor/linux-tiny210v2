@@ -1589,8 +1589,8 @@ static struct goodix_i2c_platform_data goodix_pdata = {
 static struct ft5x0x_i2c_platform_data ft5x0x_pdata = {
 	.gpio_irq		= S5PV210_GPH1(6),
 	.irq_cfg		= S3C_GPIO_SFN(0xf),
-	.screen_max_x	= 480,
-	.screen_max_y	= 272,
+	.screen_max_x	= 800,
+	.screen_max_y	= 480,
 	.pressure_max	= 255,
 };
 #endif
