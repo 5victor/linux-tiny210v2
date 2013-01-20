@@ -36,7 +36,8 @@
 #include <plat/gpio-cfg.h>
 #include <mach/gpio.h>
 
-/*#define DEBUG 1
+/*
+#define DEBUG 1
 #define DEBUG_0 1
 */
 
@@ -132,6 +133,35 @@ static int ft5x0x_i2c_txdata(char *txdata, int length)
 	return ret;
 }
 
+static int ft5x0x_get_version()
+{
+	int ret;
+	char rxdata = 0xa6;
+
+	struct i2c_msg msgs[] = {
+		{
+			.addr	= this_client->addr,
+			.flags	= 0,
+			.len	= 1,
+			.buf	= &rxdata,
+		},
+		{
+			.addr	= this_client->addr,
+			.flags	= I2C_M_RD,
+			.len	= 1,
+			.buf	= &rxdata,
+		},
+	};
+
+    //msleep(1);
+	ret = i2c_transfer(this_client->adapter, msgs, 2);
+	if (ret < 0)
+		pr_err("msg %s i2c read error: %d\n", __func__, ret);
+	else
+		ret = rxdata;
+	
+	return ret;
+}
 static int ft5x0x_set_reg(u8 addr, u8 para)
 {
     u8 buf[3];
@@ -263,7 +293,7 @@ static void ft5x0x_ts_pen_irq_work(struct work_struct *work)
 
 //	disable_irq(this_client->irq);
 	//disable_irq_nosync(this_client->irq);
-
+//    	msleep(50);
 	TS_DEBUG("------------------------------------\n");
 	TS_DEBUG("ft5x0x_ts_pen_irq_work:START\n");
 	ret = ft5x0x_read_data();
@@ -272,7 +302,6 @@ static void ft5x0x_ts_pen_irq_work(struct work_struct *work)
 	}
 	TS_DEBUG("------------------------------------\n");
 	TS_DEBUG("ft5x0x_ts_pen_irq_work:END\n");
-//    	msleep(1);
     enable_irq(this_client->irq);
 //	enable_irq(IRQ_EINT(6));
 }
@@ -329,7 +358,7 @@ ft5x0x_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
 	struct input_dev *input_dev;
 	int err = 0;
 
-	unsigned char get_version = ~89;
+	int get_version;
 
 	
 	TS_DEBUG("\n\n\n\n#############################################==ft5x0x_ts_probe=\n");
@@ -440,7 +469,7 @@ ft5x0x_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
 //	enable_irq(this_client->irq);
 //	enable_irq(IRQ_EINT(6));
 //
-	ft5x0x_i2c_rxdata(&get_version, 1);
+	get_version = ft5x0x_get_version();
 
 	printk(KERN_INFO "tx5x0x Firmware version:%d\n", get_version);
 
