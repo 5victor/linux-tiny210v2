@@ -34,6 +34,7 @@
 #include <linux/gpio_keys.h>
 #include <linux/power_supply.h>
 #include <linux/pda_power.h>
+#include <linux/input.h>
 
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
@@ -371,23 +372,23 @@ static struct s3c_ide_platdata mini210_ide_pdata __initdata = {
 static struct gpio_keys_button gpio_buttons[] = {
 	{
 		.gpio		= S5PV210_GPH2(0),
-		.code		= 158,
+		.code		= KEY_BACK,
 		.desc		= "BACK",
 		.active_low	= 1,
 		.wakeup		= 0,
 	}, {
 		.gpio		= S5PV210_GPH2(1),
-		.code		= 102,
+		.code		= KEY_HOMEPAGE,
 		.desc		= "HOME",
 		.active_low	= 1,
 		.wakeup		= 1,
 	}, {
 		.gpio		= S5PV210_GPH2(2),
-		.code		= 139,
+		.code		= KEY_MENU,
 		.desc		= "MENU",
 		.active_low	= 1,
 		.wakeup		= 0,
-	}, {
+/*	}, {
 		.gpio		= S5PV210_GPH2(3),
 		.code		= 232,
 		.desc		= "DPAD_CENTER",
@@ -398,28 +399,28 @@ static struct gpio_keys_button gpio_buttons[] = {
 		.code		= 105,
 		.desc		= "DPAD_LEFT",
 		.active_low	= 1,
-		.wakeup		= 0,
+		.wakeup		= 0, */
 	}, {
 		.gpio		= S5PV210_GPH3(1),
-		.code		= 108,
-		.desc		= "DPAD_DOWN",
+		.code		= KEY_VOLUMEDOWN,
+		.desc		= "VOLUMEDOWN",
 		.active_low	= 1,
 		.wakeup		= 0,
 	}, {
 		.gpio		= S5PV210_GPH3(2),
-		.code		= 103,
-		.desc		= "DPAD_UP",
+		.code		= KEY_VOLUMEUP,
+		.desc		= "VOLUMEUP",
 		.active_low	= 1,
 		.wakeup		= 0,
 	}, {
 		.gpio		= S5PV210_GPH3(3),
-		.code		= 106,
-		.desc		= "DPAD_RIGHT",
+		.code		= KEY_POWER,
+		.desc		= "POWER",
 		.active_low	= 1,
 		.wakeup		= 0,
 	}, {
 		.gpio		= S5PV210_GPH1(7),
-		.code		= 102,
+		.code		= KEY_HOMEPAGE,
 		.desc		= "HOME",
 		.active_low	= 1,
 		.wakeup		= 1,
