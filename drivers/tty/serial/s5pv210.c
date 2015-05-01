@@ -140,7 +140,10 @@ static int __init s5pv210_serial_console_init(void)
 	return s3c24xx_serial_initconsole(&s5p_serial_driver, s5p_uart_inf);
 }
 
+//static struct console s3c24xx_serial_console;
+
 console_initcall(s5pv210_serial_console_init);
+//console_initcall(s3c24xx_serial_console_init);
 
 static int __init s5p_serial_init(void)
 {
